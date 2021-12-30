@@ -1,17 +1,21 @@
 <template>
   <main id="app">
-    <section class="action-container">
+    <section class="top-bar">
       <h1>Photo Gallery</h1>
-      <input placeholder="Search">
+      <div class="action-container">
+        <input placeholder="Search">
+        <button @click="view = 'grid'"><img alt="Visualização em grade" class="icon" src="./assets/grid.png"></button>
+        <button @click="view = 'list'"><img alt="Visualização em lista" class="icon" src="./assets/list.png"></button>
+      </div>
     </section>
-    <div class="gallery">
+    <div :class="view">
       <photoCard
         v-for="photo in renderedPhotos"
         :key=photo.title
         :photo='photo'
       />
-      <button @click="showMore">SHOW MORE</button>
     </div>
+    <button class="show-more" @click="showMore">SHOW MORE</button>
   </main>
 </template>
 
@@ -28,6 +32,7 @@ export default {
     return {
       photos: [],
       lastEl: 20,
+      view: 'grid'
     }
   },
   methods: {
@@ -43,7 +48,13 @@ export default {
     },
     showMore: function () {
       this.lastEl += 20;
-    }
+    },
+    /*currentView: function () {
+      if(view === 'grid')
+        return currentView
+      if(view === 'list')
+        return 
+    }*/
   },
   computed: {
     renderedPhotos: function() {
@@ -57,34 +68,54 @@ export default {
 </script>
 
 <style>
-* {
+html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-body {
   font-family: "Roboto", sans-serif;
 }
-.action-container h1 {
-  display: inline;
-  margin: 25px auto;
-  padding: 25px;
+.top-bar {
+  justify-content: space-around;
 }
-.action-container input {
+.top-bar h1 {
   display: inline;
+  margin-left: 45px;
+}
+.top-bar input {
   margin: 25px auto;
   height: 30px;
+  width: 200px;
+}
+.action-container {
+  display: inline;
+  margin-left: 45px;
+}
+.action-container button {
+  margin: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.icon {
+  height: 40px;
+  width: 40px;
 }
 .main {
   width: 100%;
   overflow: hidden;
   justify-content: space-between;
+  text-align: center;
 }
-.gallery {
+.grid {
   display: flex;
   flex-wrap: wrap;
   padding: 25px;
   margin: 0 auto;
+}
+.list {
+  display: inline;
+
 }
 .show-more {
   text-align: center;
