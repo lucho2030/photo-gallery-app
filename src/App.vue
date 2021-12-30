@@ -76,11 +76,9 @@ body {
   height: 30px;
 }
 .main {
-  width: 100vw;
-  min-height: 100vw;
+  width: 100%;
   overflow: hidden;
   justify-content: space-between;
-  display: flex;
 }
 .gallery {
   display: flex;

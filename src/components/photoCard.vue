@@ -23,7 +23,12 @@ export default {
 }
 img {
   display: flex;
+  margin: auto;
   height: 280px;
   width: 280px;
+}
+.title {
+  margin: auto;
+  text-align: center;
 }
 </style>
