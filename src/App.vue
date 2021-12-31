@@ -47,6 +47,7 @@ export default {
     },
     searchPhoto: function () {
       this.searchOn = true
+      this.lastEl = 20;
       this.filtered = this.photos.filter(({title}) => title.indexOf(this.inputSearch) >= 0);
     },
     showMore: function () {
@@ -57,8 +58,9 @@ export default {
     renderedPhotos: function() {
       if(!this.searchOn)
         return this.photos.slice(0, this.lastEl)
-      if(this.searchOn)
+      if(this.searchOn) {
         return this.filtered.slice(0, this.lastEl)
+      }
     },
     currentView: function () {
       if(this.gridView)
