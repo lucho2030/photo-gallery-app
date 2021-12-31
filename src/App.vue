@@ -1,19 +1,16 @@
 <template>
   <main id="app">
-    <section class="top-bar">
+    <div class="top-bar">
       <h1>Photo Gallery</h1>
       <div class="action-container">
         <input placeholder="Search">
-        <button @click="view = 'grid'"><img alt="Visualização em grade" class="icon" src="./assets/grid.png"></button>
-        <button @click="view = 'list'"><img alt="Visualização em lista" class="icon" src="./assets/list.png"></button>
+        <button @click="gridView = true"><img alt="Visualização em grade" class="icon" src="./assets/grid.png"></button>
+        <button @click="gridView = false"><img alt="Visualização em lista" class="icon" src="./assets/list.png"></button>
       </div>
-    </section>
-    <div :class="view">
-      <photoCard
-        v-for="photo in renderedPhotos"
-        :key=photo.title
-        :photo='photo'
-      />
+    </div>
+    <div v-for="(photo, index) in renderedPhotos" :key=index>
+      <img :src="photo.url" class="image-grid">
+      <div class="title">{{ photo.title }}</div>
     </div>
     <button class="show-more" @click="showMore">SHOW MORE</button>
   </main>
@@ -21,18 +18,14 @@
 
 <script>
 import axios from "axios"
-import photoCard from './components/photoCard.vue'
 
 export default {
   name: "App",
-  components: {
-    photoCard
-  },
   data() {
     return {
       photos: [],
       lastEl: 20,
-      view: 'grid'
+      gridView: 'grid'
     }
   },
   methods: {
@@ -48,17 +41,17 @@ export default {
     },
     showMore: function () {
       this.lastEl += 20;
-    },
-    /*currentView: function () {
-      if(view === 'grid')
-        return currentView
-      if(view === 'list')
-        return 
-    }*/
+    }
   },
   computed: {
     renderedPhotos: function() {
       return this.photos.slice(0, this.lastEl)
+    },
+    currentViewImage: function () {
+      if(view === 'grid')
+        return 'image-grid'
+      if(view === 'list')
+        return  'image-list'
     }
   },
   beforeMount() {
@@ -115,7 +108,22 @@ html, body {
 }
 .list {
   display: inline;
-
+}
+.photo-card {
+  flex-direction: row;
+  flex: 25%;
+  width: 100%;
+  padding: 25px;
+}
+.image-grid {
+  display: flex;
+  margin: auto;
+  height: 280px;
+  width: 280px;
+}
+.title {
+  margin: auto;
+  text-align: center;
 }
 .show-more {
   text-align: center;
