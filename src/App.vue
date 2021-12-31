@@ -3,7 +3,8 @@
     <div class="top-bar">
       <h1>Photo Gallery</h1>
       <div class="action-container">
-        <input placeholder="Search">
+        <input placeholder="Search" v-model="inputSearch" v-on:keyup.enter=searchPhoto>
+        <button @click=searchPhoto><img alt="Buscar foto" class="icon" src="./assets/search.png"></button>
         <button @click="gridView = true"><img alt="Visualização em grade" class="icon" src="./assets/grid.png"></button>
         <button @click="gridView = false"><img alt="Visualização em lista" class="icon" src="./assets/list.png"></button>
       </div>
@@ -27,7 +28,10 @@ export default {
     return {
       photos: [],
       lastEl: 20,
-      gridView: 'grid'
+      gridView: 'grid',
+      inputSearch: null,
+      searchOn: false,
+      filtered: []
     }
   },
   methods: {
@@ -41,13 +45,20 @@ export default {
             alert(error)
           }) 
     },
+    searchPhoto: function () {
+      this.searchOn = true
+      this.filtered = this.photos.filter(({title}) => title.indexOf(this.inputSearch) >= 0);
+    },
     showMore: function () {
       this.lastEl += 20;
     },
   },
   computed: {
     renderedPhotos: function() {
-      return this.photos.slice(0, this.lastEl)
+      if(!this.searchOn)
+        return this.photos.slice(0, this.lastEl)
+      if(this.searchOn)
+        return this.filtered.slice(0, this.lastEl)
     },
     currentView: function () {
       if(this.gridView)
@@ -150,6 +161,7 @@ html, body {
   margin: auto;
   height: 280px;
   width: 280px;
+  border-radius: 5px;
 }
 .image-list {
   display: inline;
@@ -157,6 +169,7 @@ html, body {
   margin: 15px auto;
   height: 150px;
   width: 150px;
+  border-radius: 5px;
 }
 .title-grid {
   margin: 15px auto;
