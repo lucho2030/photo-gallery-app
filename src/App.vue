@@ -100,6 +100,7 @@ html, body {
   text-align: center;
 }
 .top-bar {
+  padding-top: 25px;
   background: lightgray;
   justify-content: space-around;
 }
@@ -155,6 +156,7 @@ html, body {
 .photo-list{
   margin: auto;
   width: 720px;
+  padding: 15px;
 }
 .image-grid {
   display: flex;
@@ -175,7 +177,10 @@ html, body {
   margin: 15px auto;
 }
 .title-list {
-  display: inline;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 180px;
+  overflow-x: hidden;
   margin-left: 15px;
 }
 .show-more {
