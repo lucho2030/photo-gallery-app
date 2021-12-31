@@ -8,9 +8,11 @@
         <button @click="gridView = false"><img alt="Visualização em lista" class="icon" src="./assets/list.png"></button>
       </div>
     </div>
-    <div v-for="(photo, index) in renderedPhotos" :key=index>
-      <img :src="photo.url" class="image-grid">
-      <div class="title">{{ photo.title }}</div>
+    <div :class=currentView>
+      <div :class=currentPhotoView v-for="(photo, index) in renderedPhotos" :key=index>
+        <img :src="photo.url" :class=currentViewImage>
+        <div :class=currentViewTitle>{{ photo.title }}</div>
+      </div>
     </div>
     <button class="show-more" @click="showMore">SHOW MORE</button>
   </main>
@@ -41,17 +43,35 @@ export default {
     },
     showMore: function () {
       this.lastEl += 20;
-    }
+    },
   },
   computed: {
     renderedPhotos: function() {
       return this.photos.slice(0, this.lastEl)
     },
+    currentView: function () {
+      if(this.gridView)
+        return 'grid'
+      if(!this.gridView)
+        return 'list'
+    },
+    currentPhotoView: function () {
+      if(this.gridView)
+        return 'photo-card'
+      if(!this.gridView)
+        return 'photo-list'
+    },
     currentViewImage: function () {
-      if(view === 'grid')
+      if(this.gridView)
         return 'image-grid'
-      if(view === 'list')
-        return  'image-list'
+      if(!this.gridView)
+        return 'image-list'
+    },
+    currentViewTitle: function () {
+      if(this.gridView)
+        return 'title-grid'
+      if(!this.gridView)
+        return 'title-list'
     }
   },
   beforeMount() {
@@ -66,22 +86,26 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
+  text-align: center;
 }
 .top-bar {
+  background: lightgray;
   justify-content: space-around;
 }
 .top-bar h1 {
   display: inline;
-  margin-left: 45px;
+  margin: auto;
+  vertical-align: middle;
+  font-size: 38px;
 }
 .top-bar input {
-  margin: 25px auto;
   height: 30px;
   width: 200px;
+  vertical-align: middle;
 }
 .action-container {
   display: inline;
-  margin-left: 45px;
+  margin: auto auto auto 25px;
 }
 .action-container button {
   margin: 15px;
@@ -103,17 +127,23 @@ html, body {
 .grid {
   display: flex;
   flex-wrap: wrap;
-  padding: 25px;
+  padding: 5px;
   margin: 0 auto;
 }
 .list {
   display: inline;
+  text-align: left;
 }
 .photo-card {
+  margin: auto;
   flex-direction: row;
-  flex: 25%;
+  flex: 15%;
   width: 100%;
   padding: 25px;
+}
+.photo-list{
+  margin: auto;
+  width: 720px;
 }
 .image-grid {
   display: flex;
@@ -121,11 +151,22 @@ html, body {
   height: 280px;
   width: 280px;
 }
-.title {
-  margin: auto;
-  text-align: center;
+.image-list {
+  display: inline;
+  vertical-align: middle;
+  margin: 15px auto;
+  height: 150px;
+  width: 150px;
+}
+.title-grid {
+  margin: 15px auto;
+}
+.title-list {
+  display: inline;
+  margin-left: 15px;
 }
 .show-more {
-  text-align: center;
+  margin: 10px auto 20px auto;
+  padding: 5px;
 }
 </style>
